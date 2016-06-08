@@ -20,9 +20,17 @@ namespace GoFish
         public Card Peek(int cardNumber) { return cards.Peek(cardNumber); }
         public void SortHand() { cards.SortByValue(); }
 
-        public Player()
+        public Player(string name, Random random, TextBox textBoxOnForm)
         {
-
+            this.name = name;
+            this.random = random;
+            this.textBoxOnForm = textBoxOnForm;
+            // draw 5 cards?
+            for (int i = 0; i < 5; i++)
+            {
+                cards.Add(cards.Deal());
+            }
+            textBoxOnForm.Text += $"{this.name} has joined the game.{Environment.NewLine}";
         }
 
         public IEnumerable<Values> PullOutBooks()
@@ -52,12 +60,22 @@ namespace GoFish
 
         public Values GetRandomValue()
         {
+            // get value that exists in the deck
+            /*Values cardValue;
+            int rand = random.Next(1, 14);
+            foreach (Card card in cards)
+            {
+
+            }       
+                
+            return cards[pickCard].Value;*/
 
         }
 
         public Deck DoYouHaveAny(Values value)
         {
-
+            
+            //throw new NotImplementedException();
         }
         
         public void AskForACard(List<Player> players, int myIndex, Deck stock)

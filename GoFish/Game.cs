@@ -25,7 +25,7 @@ namespace GoFish
             players.Add(new Player(playerName, random, textBoxOnForm));
             foreach (string player in opponentNames)
             {
-                players.Add(new Player(players, random, textBoxOnForm));
+                players.Add(new Player(player, random, textBoxOnForm));
             }
             books = new Dictionary<Values, Player>();
             stock = new Deck();
@@ -35,7 +35,14 @@ namespace GoFish
 
         private void Deal()
         {
-
+            stock.Shuffle();
+            for (int i = 0; i < 5; i++)
+            {
+                for (int j = 0; j < players.Count; j++)
+                {
+                    players[j].TakeCard(stock.Deal());
+                }
+            }
         }
 
         public bool PlayOneRound(int selectedPlayerCard)

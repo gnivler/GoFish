@@ -21,7 +21,7 @@ namespace GoFish
 
         private void buttonStart_Click(object sender, EventArgs e)
         {
-            if (!String.IsNullOrEmpty(textName.Text))
+            if (string.IsNullOrEmpty(textName.Text))
             {
                 MessageBox.Show("Please enter your name", "Can't start the game yet");
                 return;
@@ -36,7 +36,7 @@ namespace GoFish
         private void UpdateForm()
         {
             listHand.Items.Clear();
-            foreach (String cardName in game.GetPlayerCardNames())
+            foreach (string cardName in game.GetPlayerCardNames())
             {
                 listHand.Items.Add(cardName);
             }

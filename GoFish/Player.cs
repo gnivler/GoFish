@@ -15,6 +15,7 @@ namespace GoFish
         private Deck cards;
         private TextBox textBoxOnForm;
         public int CardCount { get { return cards.Count; } }
+
         public void TakeCard(Card card) { cards.Add(card); }
         public IEnumerable<string> GetCardNames() { return cards.GetCardNames(); }
         public Card Peek(int cardNumber) { return cards.Peek(cardNumber); }
@@ -25,11 +26,7 @@ namespace GoFish
             this.name = name;
             this.random = random;
             this.textBoxOnForm = textBoxOnForm;
-            // draw 5 cards?
-            for (int i = 0; i < 5; i++)
-            {
-                cards.Add(cards.Deal());
-            }
+            cards = new Deck(new Card[] { });       // create empty deck ?  so why is the compiler complaining that 'cards' is never assigned
             textBoxOnForm.Text += $"{this.name} has joined the game.{Environment.NewLine}";
         }
 
@@ -66,27 +63,22 @@ namespace GoFish
             foreach (Card card in cards)
             {
 
-            }       
-                
+            }                      
             return cards[pickCard].Value;*/
-
+            throw new NotImplementedException();
         }
 
         public Deck DoYouHaveAny(Values value)
-        {
-            
-            //throw new NotImplementedException();
+        {        
+            throw new NotImplementedException();
         }
         
         public void AskForACard(List<Player> players, int myIndex, Deck stock)
         {
-
         }
 
         public void AskForACard(List<Player> players, int myIndex, Deck stock, Values value)
         {
-
         }
-
     }
 }

@@ -58,6 +58,16 @@ namespace GoFish
         public Values GetRandomValue()
         {
             // get value that exists in the deck
+
+            // build list of values in the deck
+
+            // access the List<Card> in the this.cards Deck object...
+            // Peek()?
+
+
+
+            // pick one randomly
+
             /*Values cardValue;
             int rand = random.Next(1, 14);
             foreach (Card card in cards)

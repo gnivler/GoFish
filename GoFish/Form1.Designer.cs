@@ -35,49 +35,45 @@
             this.label1 = new System.Windows.Forms.Label();
             this.textName = new System.Windows.Forms.TextBox();
             this.buttonStart = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // listHand
             // 
             this.listHand.Enabled = false;
             this.listHand.FormattingEnabled = true;
-            this.listHand.ItemHeight = 16;
-            this.listHand.Location = new System.Drawing.Point(305, 68);
-            this.listHand.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.listHand.Location = new System.Drawing.Point(229, 84);
             this.listHand.Name = "listHand";
-            this.listHand.Size = new System.Drawing.Size(223, 228);
+            this.listHand.Size = new System.Drawing.Size(168, 186);
             this.listHand.TabIndex = 0;
             this.listHand.DoubleClick += new System.EventHandler(this.buttonAsk_Click);
             // 
             // textProgress
             // 
-            this.textProgress.Location = new System.Drawing.Point(16, 52);
-            this.textProgress.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textProgress.Location = new System.Drawing.Point(12, 84);
             this.textProgress.Multiline = true;
             this.textProgress.Name = "textProgress";
             this.textProgress.ReadOnly = true;
             this.textProgress.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textProgress.Size = new System.Drawing.Size(280, 504);
+            this.textProgress.Size = new System.Drawing.Size(211, 397);
             this.textProgress.TabIndex = 1;
             // 
             // textBooks
             // 
-            this.textBooks.Location = new System.Drawing.Point(305, 305);
-            this.textBooks.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textBooks.Location = new System.Drawing.Point(229, 277);
             this.textBooks.Multiline = true;
             this.textBooks.Name = "textBooks";
             this.textBooks.ReadOnly = true;
             this.textBooks.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBooks.Size = new System.Drawing.Size(223, 250);
+            this.textBooks.Size = new System.Drawing.Size(168, 204);
             this.textBooks.TabIndex = 2;
             // 
             // buttonAsk
             // 
             this.buttonAsk.Enabled = false;
-            this.buttonAsk.Location = new System.Drawing.Point(16, 564);
-            this.buttonAsk.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonAsk.Location = new System.Drawing.Point(12, 487);
             this.buttonAsk.Name = "buttonAsk";
-            this.buttonAsk.Size = new System.Drawing.Size(513, 28);
+            this.buttonAsk.Size = new System.Drawing.Size(385, 23);
             this.buttonAsk.TabIndex = 3;
             this.buttonAsk.Text = "Ask for a card";
             this.buttonAsk.UseVisualStyleBackColor = true;
@@ -86,37 +82,44 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(305, 48);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Location = new System.Drawing.Point(229, 68);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 17);
+            this.label1.Size = new System.Drawing.Size(56, 13);
             this.label1.TabIndex = 4;
             this.label1.Text = "Your hand";
             // 
             // textName
             // 
-            this.textName.Location = new System.Drawing.Point(16, 15);
-            this.textName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.textName.Location = new System.Drawing.Point(12, 25);
             this.textName.Name = "textName";
-            this.textName.Size = new System.Drawing.Size(280, 22);
+            this.textName.Size = new System.Drawing.Size(211, 20);
             this.textName.TabIndex = 5;
             // 
             // buttonStart
             // 
-            this.buttonStart.Location = new System.Drawing.Point(305, 12);
-            this.buttonStart.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.buttonStart.Location = new System.Drawing.Point(232, 23);
             this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(224, 28);
+            this.buttonStart.Size = new System.Drawing.Size(168, 23);
             this.buttonStart.TabIndex = 6;
             this.buttonStart.Text = "Start the game";
             this.buttonStart.UseVisualStyleBackColor = true;
             this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(12, 9);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(58, 13);
+            this.label2.TabIndex = 7;
+            this.label2.Text = "Your name";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(545, 602);
+            this.ClientSize = new System.Drawing.Size(409, 519);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.buttonStart);
             this.Controls.Add(this.textName);
             this.Controls.Add(this.label1);
@@ -125,10 +128,10 @@
             this.Controls.Add(this.textProgress);
             this.Controls.Add(this.listHand);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Form1";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Go Fish";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -144,6 +147,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textName;
         private System.Windows.Forms.Button buttonStart;
+        private System.Windows.Forms.Label label2;
     }
 }
 

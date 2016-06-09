@@ -70,25 +70,21 @@ namespace GoFish
 
         public Deck DoYouHaveAny(Values value)
         {
-            Deck resultingDeck = cards.PullOutValues(value);
-            textBoxOnForm.Text += $"{Name} has {resultingDeck.Count} {Card.Plural(value)}{Environment.NewLine}";
-            return resultingDeck;
-
-
-            throw new NotImplementedException();
-        
             // This is where an opponent asks if I have any cards of a certain value
             // Use Deck.PullOutValues() to pull out the values. Add a line to the TextBox
             // that says, "Joe has 3 sixes"—use the new Card.Plural() static method
 
+            Deck resultingDeck = cards.PullOutValues(value);
+            textBoxOnForm.Text += $"{Name} has {resultingDeck.Count} {Card.Plural(value)}{Environment.NewLine}";
+            return resultingDeck;
         }
 
         public void AskForACard(List<Player> players, int myIndex, Deck stock)
         {
-            Values randomValue = (Values)random.Next(1, 14);
-
             // Here's an overloaded version of AskForACard()—choose a random value
             // from the deck using GetRandomValue() and ask for it using AskForACard()
+
+            Values randomValue = (Values)random.Next(1, 14);
         }
 
         public void AskForACard(List<Player> players, int myIndex, Deck stock, Values value)
@@ -120,7 +116,6 @@ namespace GoFish
             // Keep track of how many cards were added. If there weren't any, you'll need
             // to deal yourself a card from the stock (which was also passed as a parameter),
             // and you'll have to add a line to the TextBox: "Joe had to draw from the stock"
-
         }
     }
 }

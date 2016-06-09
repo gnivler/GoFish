@@ -44,8 +44,7 @@ namespace GoFish
 
         public bool PlayOneRound(int selectedPlayerCard)
         {
-            // Play one round of the game. The parameter is the card the player selected
-            // from his hand—get its value. Then go through all of the players and call
+            // go through all of the players and call
             // each one's AskForACard() methods, starting with the human player (who's
             // at index zero in the Players list—make sure he asks for the selected
             // card's value). Then call PullOutBooks()—if it returns true, then the
@@ -55,9 +54,12 @@ namespace GoFish
             // TextBox on the form to say, "The stock is out of cards. Game over!" and return
             // true. Otherwise, the game isn't over yet, so return false.
 
-            Card card = players[0].Peek(selectedPlayerCard);
-            Values value = card.Value;
-            
+            Card selectedCard = players[0].Peek(selectedPlayerCard);
+            Values value = selectedCard.Value;
+            foreach (Player player in players)
+            {
+
+            }
             throw new NotImplementedException();
         }
 

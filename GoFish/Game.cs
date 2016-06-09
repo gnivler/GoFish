@@ -56,11 +56,30 @@ namespace GoFish
 
             Card selectedCard = players[0].Peek(selectedPlayerCard);
             Values value = selectedCard.Value;
-            foreach (Player player in players)
+            for (int i = 0; i < players.Count; i++)
             {
-
+                if (i == 0)
+                {
+                    players[i].AskForACard(players, players[i].CardCount, stock, value);
+                }
+                else
+                {
+                    players[i].AskForACard(players, players[i].CardCount, stock);
+                }
+                if (PullOutBooks(players[i]))
+                {
+                    if (stock.Count < 5)  // end the game if there aren't 5 cards
+                    {
+                        textBoxOnForm.Text += $"The stock is out of cards.{Environment.NewLine}";
+                        return true;
+                    }
+                    for (int j = 0; j < 5; j++)
+                    {
+                        players[i].TakeCard(stock.Deal());  // take 5 cards
+                    }
+                }
             }
-            throw new NotImplementedException();
+            return false;
         }
 
         public bool PullOutBooks(Player player)
@@ -69,6 +88,7 @@ namespace GoFish
             // return false. Each book is added to the Books dictionary. A player runs out of
             // cards when he’'s used all of his cards to make books—and he wins the game
 
+            return false;
             throw new NotImplementedException();
         }
 

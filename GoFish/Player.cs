@@ -26,7 +26,7 @@ namespace GoFish
             this.name = name;
             this.random = random;
             this.textBoxOnForm = textBoxOnForm;
-            cards = new Deck(new Card[] { });       // create empty deck ?  so why is the compiler complaining that 'cards' is never assigned
+            cards = new Deck(new Card[] { });
             textBoxOnForm.Text += $"{this.name} has joined the game.{Environment.NewLine}";
         }
 
@@ -57,6 +57,11 @@ namespace GoFish
 
         public Values GetRandomValue()
         {
+
+            // super ineffecient 
+            // needs to work from a list of values present
+            // instead of hoping a random value is in the deck
+            return Values.Five;
             bool foundValue = false;
             int rand;
             do
@@ -84,31 +89,11 @@ namespace GoFish
             // Here's an overloaded version of AskForACard()—choose a random value
             // from the deck using GetRandomValue() and ask for it using AskForACard()
 
-            Values randomValue = (Values)random.Next(1, 14);
+            AskForACard(players, CardCount, stock, GetRandomValue());
         }
 
         public void AskForACard(List<Player> players, int myIndex, Deck stock, Values value)
         {
-            Deck resultingDeck;
-            int numCards;
-            textBoxOnForm.Text += $"{Name} asks if anyone has a {value}{Environment.NewLine}";
-            foreach (Player player in players)
-            {
-                resultingDeck = DoYouHaveAny(value);
-                numCards = resultingDeck.Count;
-                if (numCards == 0)
-                {
-                    cards.Add(stock.Deal());
-                    textBoxOnForm.Text += $"{Name} had to Go Fish{Environment.NewLine}";
-
-                }
-                // add the cards to this players?.. how?
-                while (numCards > 0)
-                {
-                    cards.Add(resultingDeck.Deal());
-                }
-            }
-            
             // Ask the other players for a value. First add a line to the TextBox: "Joe asks
             // if anyone has a Queen". Then go through the list of players that was passed in
             // as a parameter and ask each player if he has any of the value (using his
@@ -116,6 +101,26 @@ namespace GoFish
             // Keep track of how many cards were added. If there weren't any, you'll need
             // to deal yourself a card from the stock (which was also passed as a parameter),
             // and you'll have to add a line to the TextBox: "Joe had to draw from the stock"
+
+            Deck resultingDeck;
+            int numCards = 0;
+            textBoxOnForm.Text += $"{Name} asks if anyone has a {value}.{Environment.NewLine}";
+            for (int i = 1 ; i < players.Count; i++)
+            {
+                resultingDeck = players[i].DoYouHaveAny(value);
+                numCards = resultingDeck.Count;
+
+                textBoxOnForm.Text += $"{Name} has {numCards} {Card.Plural(value)}.{Environment.NewLine}";
+                while (numCards > 0)
+                {
+                    cards.Add(resultingDeck.Deal());
+                }
+            }
+            if (numCards == 0)
+            {
+                cards.Add(stock.Deal());
+                textBoxOnForm.Text += $"{Name} had to Go Fish.{Environment.NewLine}";
+            }
         }
     }
 }

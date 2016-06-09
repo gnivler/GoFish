@@ -40,7 +40,7 @@ namespace GoFish
             {
                 listHand.Items.Add(cardName);
             }
-            //textBooks.Text = game.DescribeBooks();
+            textBooks.Text = game.DescribeBooks();
             textProgress.Text += game.DescribePlayerHands();
             textProgress.SelectionStart = textProgress.Text.Length;
             textProgress.ScrollToCaret();

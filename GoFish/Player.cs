@@ -57,20 +57,8 @@ namespace GoFish
 
         public Values GetRandomValue()
         {
-
-            // super ineffecient 
-            // needs to work from a list of values present
-            // instead of hoping a random value is in the deck
-            return Values.Five;
-            bool foundValue = false;
-            int rand;
-            do
-            {
-                rand = random.Next(1, 14);
-                foundValue = cards.ContainsValue((Values)rand);
-            }
-            while (!foundValue);
-            return (Values)rand;          
+            Card card = cards.Peek(random.Next(1, cards.Count));
+            return card.Value;
         }
 
         public Deck DoYouHaveAny(Values value)
@@ -80,7 +68,16 @@ namespace GoFish
             // that says, "Joe has 3 sixes"—use the new Card.Plural() static method
 
             Deck resultingDeck = cards.PullOutValues(value);
-            textBoxOnForm.Text += $"{Name} has {resultingDeck.Count} {Card.Plural(value)}{Environment.NewLine}";
+            string valueString;
+            if (resultingDeck.Count > 1)
+            {
+                valueString = Card.Plural(value);
+            }
+            else
+            {
+                valueString = value.ToString();
+            }
+            textBoxOnForm.Text += $"{Name} has {resultingDeck.Count} {valueString}{Environment.NewLine}";
             return resultingDeck;
         }
 
@@ -104,19 +101,27 @@ namespace GoFish
 
             Deck resultingDeck;
             int numCards = 0;
-            textBoxOnForm.Text += $"{Name} asks if anyone has a {value}.{Environment.NewLine}";
-            for (int i = 1 ; i < players.Count; i++)
-            {
-                resultingDeck = players[i].DoYouHaveAny(value);
-                numCards = resultingDeck.Count;
+            string pluralName = Card.Plural(value);
+            bool goFish = true;
 
-                textBoxOnForm.Text += $"{Name} has {numCards} {Card.Plural(value)}.{Environment.NewLine}";
-                while (numCards > 0)
+            textBoxOnForm.Text += $"{Name} asks if anyone has a {value}.{Environment.NewLine}";
+            for (int i = 0 ; i < players.Count; i++)
+            {
+                if (players[i].Name != Name)
                 {
-                    cards.Add(resultingDeck.Deal());
+                    resultingDeck = players[i].DoYouHaveAny(value);
+                    numCards = resultingDeck.Count;
+                    if (numCards > 0)
+                    {
+                        goFish = false;
+                        for (int j = 0; j < resultingDeck.Count; j++)
+                        {
+                            cards.Add(resultingDeck.Deal());
+                        }
+                    }
                 }
             }
-            if (numCards == 0)
+            if (goFish)
             {
                 cards.Add(stock.Deal());
                 textBoxOnForm.Text += $"{Name} had to Go Fish.{Environment.NewLine}";

@@ -55,12 +55,12 @@ namespace GoFish
             // true. Otherwise, the game isn't over yet, so return false.
 
             Card selectedCard = players[0].Peek(selectedPlayerCard);
-            Values value = selectedCard.Value;
+            Values selectedValue = selectedCard.Value;
             for (int i = 0; i < players.Count; i++)
             {
                 if (i == 0)
                 {
-                    players[i].AskForACard(players, players[i].CardCount, stock, value);
+                    players[i].AskForACard(players, players[i].CardCount, stock, selectedValue);
                 }
                 else
                 {

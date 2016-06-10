@@ -33,7 +33,7 @@ namespace GoFish
         public IEnumerable<Values> PullOutBooks()
         {
             List<Values> books = new List<Values>();
-            for (int i = 1; i <= 3; i++)
+            for (int i = 1; i <= 13; i++)
             {
                 Values value = (Values)i;
                 int howMany = 0;
@@ -69,7 +69,7 @@ namespace GoFish
 
             Deck resultingDeck = cards.PullOutValues(value);
             string valueString;
-            if (resultingDeck.Count > 1)
+            if (resultingDeck.Count != 1)
             {
                 valueString = Card.Plural(value);
             }

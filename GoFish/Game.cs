@@ -66,19 +66,18 @@ namespace GoFish
                 {
                     players[i].AskForACard(players, players[i].CardCount, stock);
                 }
-                if (PullOutBooks(players[i]))
+                while (PullOutBooks(players[i]))        // while loop to keep checking in case the drawing complete more books
                 {
-                    if (stock.Count < 5)  // end the game if there aren't 5 cards
-                    {
-                        textBoxOnForm.Text += $"The stock is out of cards.{Environment.NewLine}";
-                        return true;
-                    }
                     for (int j = 0; j < 5; j++)
                     {
-                        players[i].TakeCard(stock.Deal());  // take 5 cards
+                        if (stock.Count > 0)
+                        {
+                            players[i].TakeCard(stock.Deal());
+                        }
                     }
                 }
             }
+            players[0].SortHand();
             return false;
         }
 
@@ -87,9 +86,16 @@ namespace GoFish
             // Pull out a player's books. Return true if the player ran out of cards, otherwise
             // return false. Each book is added to the Books dictionary. A player runs out of
             // cards when he’'s used all of his cards to make books—and he wins the game
-
+            IEnumerable<Values> books = player.PullOutBooks();
+            foreach (Values value in books)
+            {
+                this.books.Add(value, player);
+            }
+            if (player.CardCount == 0)
+            {
+                return true;
+            }
             return false;
-            throw new NotImplementedException();
         }
 
         public string DescribeBooks()
@@ -99,10 +105,9 @@ namespace GoFish
             string bookString = "";
             foreach (Values value in books.Keys)
             {
-                bookString += $"{books[value].ToString()} has a book of {Card.Plural(value)}{Environment.NewLine}";
+                bookString += $"{books[value].Name} has a book of {Card.Plural(value)}{Environment.NewLine}";
             }
             return bookString;
-            throw new NotImplementedException();
         }
 
         public string GetWinnerName()
@@ -124,7 +129,6 @@ namespace GoFish
             {
 
             }
-
             throw new NotImplementedException();
         }
 

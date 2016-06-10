@@ -66,18 +66,22 @@ namespace GoFish
                 {
                     players[i].AskForACard(players, players[i].CardCount, stock);
                 }
-                while (PullOutBooks(players[i]))        // while loop to keep checking in case the drawing complete more books
+                if (players[i].CardCount > 3)               // don't check for books if there aren't enough cards to complete one
                 {
-                    for (int j = 0; j < 5; j++)
+                    if (PullOutBooks(players[i]))           // if true, out of cards, draw up to 5
                     {
-                        if (stock.Count > 0)
+                        for (int j = 0; j < 5 && stock.Count > 0; j++)
                         {
-                            players[i].TakeCard(stock.Deal());
+                                players[i].TakeCard(stock.Deal());
                         }
                     }
                 }
             }
             players[0].SortHand();
+            if (stock.Count == 0)
+            {
+                return true;
+            }
             return false;
         }
 
@@ -86,10 +90,12 @@ namespace GoFish
             // Pull out a player's books. Return true if the player ran out of cards, otherwise
             // return false. Each book is added to the Books dictionary. A player runs out of
             // cards when he’'s used all of his cards to make books—and he wins the game
+
             IEnumerable<Values> books = player.PullOutBooks();
             foreach (Values value in books)
             {
                 this.books.Add(value, player);
+                textBoxOnForm.Text += $"{player.Name} scored a book of {Card.Plural(value)}.{Environment.NewLine}";
             }
             if (player.CardCount == 0)
             {
@@ -105,7 +111,7 @@ namespace GoFish
             string bookString = "";
             foreach (Values value in books.Keys)
             {
-                bookString += $"{books[value].Name} has a book of {Card.Plural(value)}{Environment.NewLine}";
+                bookString += $"{books[value].Name} has a book of {Card.Plural(value)}.{Environment.NewLine}";
             }
             return bookString;
         }
@@ -123,13 +129,48 @@ namespace GoFish
             // it returns a string like this: "Ed with 3 books". Otherwise, it returns a
             // string like this: "A tie between Joe and Bob with 2 books."
 
-            //Dictionary<string, int> winners;
+            Dictionary<string, int> winners = new Dictionary<string, int>();
+            int theMostBooks = 0;
+            string winnerString = "";
 
             foreach (Values value in books.Keys)
             {
-
+                // initialize the key because it's throwing exceptions otherwise!
+                if (!winners.ContainsKey(books[value].Name))
+                {
+                    winners.Add(books[value].Name, 0);
+                }
+                // read Name property from player value in the key
+                // assign existing value on winner key to int count
+                // reassign the value after incrementing it
+                string name = books[value].Name;
+                int count = winners[name];              
+                winners.Add(name, ++count);            
             }
-            throw new NotImplementedException();
+
+            foreach (string name in winners.Keys)
+            {
+                if (winners[name] > theMostBooks)
+                {
+                    theMostBooks = winners[name];
+                }
+            }
+
+            foreach (string name in winners.Keys)
+            {
+                if (winners[name] == theMostBooks)
+                {
+                    if (string.IsNullOrEmpty(winnerString))
+                    {
+                        winnerString = name;
+                    }
+                    else
+                    {
+                        winnerString += $" and {name}";
+                    }
+                }
+            }
+            return $"{winnerString} with {theMostBooks} books.";
         }
 
         public IEnumerable<string> GetPlayerCardNames()

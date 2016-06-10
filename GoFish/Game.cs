@@ -56,31 +56,58 @@ namespace GoFish
 
             Card selectedCard = players[0].Peek(selectedPlayerCard);
             Values selectedValue = selectedCard.Value;
+            int drawCount = 0;
+
             for (int i = 0; i < players.Count; i++)
             {
+                // edge case, if the player lost their last card to another player they will have to draw to play
+                if (players[i].CardCount == 0)
+                {
+                    players[i].TakeCard(stock.Deal());
+                    textBoxOnForm.Text += $"{players[i].Name} draws a card to keep playing.{Environment.NewLine}";
+                }
+
+                // 0 is the human player so the method is called with their selected card, otherwise the AI method is called which is the same but generates a random value
                 if (i == 0)
                 {
-                    players[i].AskForACard(players, players[i].CardCount, stock, selectedValue);
+                    players[i].AskForACard(players, i, stock, selectedValue);
                 }
                 else
                 {
-                    players[i].AskForACard(players, players[i].CardCount, stock);
+                    players[i].AskForACard(players, i, stock);
                 }
-                if (players[i].CardCount > 3)               // don't check for books if there aren't enough cards to complete one
+
+                // the card exchange is done so now we have to pull out books and draw cards
+                //
+                // don't get for books if there aren't at least 4 cards
+                if (players[i].CardCount > 3)
                 {
-                    if (PullOutBooks(players[i]))           // if true, out of cards, draw up to 5
+                    // executes method, which returns true if the player is out of cards as a result of pulling out books
+                    if (PullOutBooks(players[i]))
                     {
                         for (int j = 0; j < 5 && stock.Count > 0; j++)
                         {
-                                players[i].TakeCard(stock.Deal());
+                            players[i].TakeCard(stock.Deal());
+                            drawCount++;
+                        }
+                        if (drawCount == 1)
+                        {
+                            textBoxOnForm.Text += $"{players[i].Name} draws the last card.{Environment.NewLine}";
+                        }
+                        else
+                        {
+                            textBoxOnForm.Text += $"{players[i].Name} draws {drawCount} cards.{Environment.NewLine}";
                         }
                     }
+                    // books may or may not have been pulled out by here and they should have cards
                 }
-            }
-            players[0].SortHand();
-            if (stock.Count == 0)
-            {
-                return true;
+
+                players[0].SortHand();
+                if (stock.Count == 0)
+                {
+                    textBoxOnForm.Text += $"The stock is out of cards, game over!{Environment.NewLine}";
+                    return true;
+                }
             }
             return false;
         }
@@ -91,12 +118,15 @@ namespace GoFish
             // return false. Each book is added to the Books dictionary. A player runs out of
             // cards when he’'s used all of his cards to make books—and he wins the game
 
-            IEnumerable<Values> books = player.PullOutBooks();
-            foreach (Values value in books)
+            IEnumerable<Values> pulledBook = player.PullOutBooks();
+
+            // is a foreach loop for a Dictionary of one a target for improvement?  would have to extract the value otherwise 
+            foreach (Values value in pulledBook)                 
             {
-                this.books.Add(value, player);
+                books.Add(value, player);
                 textBoxOnForm.Text += $"{player.Name} scored a book of {Card.Plural(value)}.{Environment.NewLine}";
             }
+
             if (player.CardCount == 0)
             {
                 return true;
@@ -144,8 +174,7 @@ namespace GoFish
                 // assign existing value on winner key to int count
                 // reassign the value after incrementing it
                 string name = books[value].Name;
-                int count = winners[name];              
-                winners.Add(name, ++count);            
+                winners[name]++;                   
             }
 
             foreach (string name in winners.Keys)

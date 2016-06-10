@@ -57,7 +57,7 @@ namespace GoFish
 
         public Values GetRandomValue()
         {
-            Card card = cards.Peek(random.Next(1, cards.Count));
+            Card card = cards.Peek(random.Next(0, cards.Count));
             return card.Value;
         }
 
@@ -86,7 +86,7 @@ namespace GoFish
             // Here's an overloaded version of AskForACard()—choose a random value
             // from the deck using GetRandomValue() and ask for it using AskForACard()
 
-            AskForACard(players, CardCount, stock, GetRandomValue());
+            AskForACard(players, myIndex, stock, GetRandomValue());
         }
 
         public void AskForACard(List<Player> players, int myIndex, Deck stock, Values value)
@@ -123,7 +123,14 @@ namespace GoFish
             }
             if (goFish)
             {
-                cards.Add(stock.Deal());
+                try
+                {
+                    cards.Add(stock.Deal());
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show($"Player {Name} failed to fish, stock is {stock.Count} cards");
+                }
                 textBoxOnForm.Text += $"{Name} had to Go Fish.{Environment.NewLine}";
             }
         }

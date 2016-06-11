@@ -123,14 +123,7 @@ namespace GoFish
             }
             if (goFish)
             {
-                try
-                {
-                    cards.Add(stock.Deal());
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show($"Player {Name} failed to fish, stock is {stock.Count} cards");
-                }
+                cards.Add(stock.Deal());
                 textBoxOnForm.Text += $"{Name} had to Go Fish.{Environment.NewLine}";
             }
         }
